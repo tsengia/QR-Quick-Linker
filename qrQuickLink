@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#
+# QR Quick File Link
+#
+#  Quickly share files from your computer
+#   using a QR code and a webserver.
+#
+# Author: tylersengia@gmail.com
+#
+
+usage() {
+	cat <EOF
+Usage:
+	qrLinkFile FILE
+
+Will create a temporary soft-link to the specified file in your webserver's directory, generate a QR code, and display the QR code to be scanned.
+This script cleans up after itself, deleting the temporary files associated with it, so please do not hard-kill it!
+
+NOTE: Please ensure that you have the proper permissions to access the webserver directory. You may have to use sudo!
+
+Author: tylersengia@gmail.com
+Github:
+	EOF
+}
+
+if [ $# -eq 0 ]
+  then
+    echo "Not enough arguments given!"
+    usage()
+fi
+
+#This is the directory of your webserver's html files. A temporary link will be placed here to link to the file you want to share.
+web_dir="/var/www/html/"
+
+#This is the basename of the temporary file that will be created. This really doesn't matter because we are adding a salt anyways
+tmp_file="tmp-link"
+
+#This is the base URL of your webserver
+host_url="http://192.168.1.62/"
+
+#Thanks to: https://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
+filename=$(basename "$1")
+extension="${filename##*.}"
+filename="${1%.*}"
+
+#We are adding a random salt to prevent browser caching.
+salt=`base32 <(echo ${RANDOM:0:4})`
+
+echo "File to link via QR and HTTP: $1"
+
+#Create a soft-link from the target file to a temp file in the web server directory
+ln $1 $web_dir$salt$tmp_file.$extension
+
+#Make a temporary QR code
+qrencode -o tmp-qr.png "$host_url$salt$tmp_file.$extension"
+
+#Display the QR code using Eye of Mate
+eom -f tmp-qr.png
+
+#Remove our soft-link and the QR image
+rm $web_dir$salt$tmp_file.$extension
+rm tmp-qr.png
