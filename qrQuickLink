@@ -43,7 +43,7 @@ findImageProgram display eog eom
 
 if [ $# -eq 0 ]
 then
-echo function assertInstalled() {
+function assertInstalled() {
     for var in "$@"; do
         if ! which $var &> /dev/null; then
             echo "Install $var!"
