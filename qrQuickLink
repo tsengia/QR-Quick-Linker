@@ -24,9 +24,33 @@ Github: https://github.com/ExpandingDev/QR-Quick-Linker
 EOF
 };
 
+image_program=-1
+found=0
+function findImageProgram() {
+    for var in "$@"; do
+        if which $var &> /dev/null; then
+            image_program=$var
+	    found=1
+        fi
+    done
+if [ $found -eq 0 ]
+then
+echo "Please install either eye-of-mate, eye-of-gnome or imagemajik!"
+exit 1;
+fi
+}
+findImageProgram display eog eom
+
 if [ $# -eq 0 ]
 then
-echo "Not enough arguments given!"
+echo function assertInstalled() {
+    for var in "$@"; do
+        if ! which $var &> /dev/null; then
+            echo "Install $var!"
+            exit 1
+        fi
+    done
+}"Not enough arguments given!"
 usage
 exit 1;
 fi
@@ -57,7 +81,17 @@ ln $1 $web_dir$salt$tmp_file.$extension
 qrencode -o tmp-qr.png "$host_url$salt$tmp_file.$extension"
 
 #Display the QR code using Eye of Mate
+if [ "$image_program" == "eom" ]; then
 eom -f tmp-qr.png
+fi
+
+if [ "$image_program" == "eog" ]; then
+eog -f tmp-qr.png
+fi
+
+if [ "$image_program" == "display" ]; then
+display tmp-qr.png
+fi
 
 #Remove our soft-link and the QR image
 rm $web_dir$salt$tmp_file.$extension
