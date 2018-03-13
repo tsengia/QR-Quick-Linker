@@ -10,7 +10,7 @@
 #
 
 usage() {
-	cat <EOF
+cat << EOF
 Usage:
 	qrLinkFile FILE
 
@@ -20,14 +20,15 @@ This script cleans up after itself, deleting the temporary files associated with
 NOTE: Please ensure that you have the proper permissions to access the webserver directory. You may have to use sudo!
 
 Author: tylersengia@gmail.com
-Github:
-	EOF
-}
+Github: https://github.com/ExpandingDev/QR-Quick-Linker
+EOF
+};
 
 if [ $# -eq 0 ]
-  then
-    echo "Not enough arguments given!"
-    usage()
+then
+echo "Not enough arguments given!"
+usage
+exit 1;
 fi
 
 #This is the directory of your webserver's html files. A temporary link will be placed here to link to the file you want to share.
