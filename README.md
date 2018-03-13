@@ -14,7 +14,7 @@ NOTE: Please ensure that you have the proper permissions to access the webserver
 
 ## Requirements
 - qrencode
-- Eye of Mate
+- Eye of Mate or Eye of Gnome or Imagemajik
 - Webserver (Apache, ngix, lighthttp, etc)
 - Correct permission level to access webserver directory.
 
