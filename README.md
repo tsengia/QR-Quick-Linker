@@ -20,7 +20,7 @@ NOTE: Please ensure that you have the proper permissions to access the webserver
 ## Installation
 There are two configration parameters that need changed:  
 - ````WEB_DIR```` This variable is the path to the webserver's directory that the temporary files will be created. Best to use absolute paths.
-- ````HOST_URL```` This is the variable that contains the base web URL that will be inserted in the QR code.
+- ````HOST_URL```` This is the variable that contains the base web URL that will be inserted in the QR code.  
 These variables can be found and edited in the first few lines of the script.
 
 I would recommend copying it to your ````/usr/bin```` folder for easier access on your terminal: ````sudo cp qrQuickLink /usr/bin/````
