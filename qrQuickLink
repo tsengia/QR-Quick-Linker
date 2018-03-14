@@ -9,6 +9,12 @@
 # Author: tylersengia@gmail.com
 #
 
+#This is the directory of your webserver's html files. A temporary link will be placed here to link to the file you want to share.
+WEB_DIR="/var/www/html/"
+
+#This is the base URL of your webserver
+HOST_URL="http://192.168.1.62/"
+
 usage() {
 cat << EOF
 Usage:
@@ -54,15 +60,8 @@ function assertInstalled() {
 usage
 exit 1;
 fi
-
-#This is the directory of your webserver's html files. A temporary link will be placed here to link to the file you want to share.
-web_dir="/var/www/html/"
-
 #This is the basename of the temporary file that will be created. This really doesn't matter because we are adding a salt anyways
 tmp_file="tmp-link"
-
-#This is the base URL of your webserver
-host_url="http://192.168.1.62/"
 
 #Thanks to: https://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
 filename=$(basename "$1")
@@ -75,10 +74,10 @@ salt=`base32 <(echo ${RANDOM:0:4})`
 echo "File to link via QR and HTTP: $1"
 
 #Create a soft-link from the target file to a temp file in the web server directory
-ln $1 $web_dir$salt$tmp_file.$extension
+ln $1 $WEB_DIR$salt$tmp_file.$extension
 
 #Make a temporary QR code
-qrencode -o tmp-qr.png "$host_url$salt$tmp_file.$extension"
+qrencode -o tmp-qr.png "$HOST_URL$salt$tmp_file.$extension"
 
 #Display the QR code using Eye of Mate
 if [ "$image_program" == "eom" ]; then
@@ -94,5 +93,5 @@ display tmp-qr.png
 fi
 
 #Remove our soft-link and the QR image
-rm $web_dir$salt$tmp_file.$extension
+rm $WEB_DIR$salt$tmp_file.$extension
 rm tmp-qr.png

@@ -1,6 +1,5 @@
 # QR-Quick-Linker
-A simple bash script that creates a soft-link to a file, generates and displays a QR code to scan.
-
+A simple bash script that creates a soft-link to a file, generates and displays a QR code to scan.  
 
 Will create a temporary soft-link to the specified file in your webserver's directory, generate a QR code, and display the QR code
 to be scanned by a device.  
@@ -19,5 +18,8 @@ NOTE: Please ensure that you have the proper permissions to access the webserver
 - Correct permission level to access webserver directory.
 
 ## Installation
-There is not much to this script, it is only one file.  
+There are two configration parameters that need changed:  
+- ````WEB_DIR```` This variable is the path to the webserver's directory that the temporary files will be created. Best to use absolute paths.
+- ````HOST_URL```` This is the variable that contains the base web URL that will be inserted in the QR code.
+
 I would recommend copying it to your ````/usr/bin```` folder for easier access on your terminal: ````sudo cp qrQuickLink /usr/bin/````
