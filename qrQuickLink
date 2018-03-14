@@ -49,14 +49,7 @@ findImageProgram display eog eom
 
 if [ $# -eq 0 ]
 then
-function assertInstalled() {
-    for var in "$@"; do
-        if ! which $var &> /dev/null; then
-            echo "Install $var!"
-            exit 1
-        fi
-    done
-}"Not enough arguments given!"
+echo "Not enough arguments given!"
 usage
 exit 1;
 fi
